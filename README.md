@@ -581,8 +581,140 @@ The following is a list of all currently supported Selectors using wildcards for
 
 ### `SuperSource`
 
+| Property | Description | Values |
+|---|---|---|
+| index | The index of the SuperSource (0 = first one) | Integer, > 0 |
+| enabled | Whether actually configure it or leave unchanged  | Boolean |
+| boxes | A list of Boxes | [Box](#box)[] |
+| art | The art config to apply | [Art](#art) |
+
+#### `Box`
+
+| Property | Description | Values |
+|---|---|---|
+| index | The index of the Box (0 = first one) | Integer, > 0 |
+| enabled | Whether actually configure it or leave unchanged | Boolean |
+| visible | Whether to make the Box visible | Boolean |
+| source | The input source to render in the Box | [Source](#source) |
+| position | The Position of the Box | [Position](#position) |
+| size | The art config to apply | Double, 0 <= x <= 1 |
+| crop | The cropping to apply | [Crop](#crop) |
+
+#### `Art`
+
+| Property | Description | Values |
+|---|---|---|
+| mode | The art mode | BACKGROUND, FOREGROUND |
+| fillSource | The fill source to use | [Source](#source) |
+| keySource | The key source to use | [Source](#source) |
+| premultipliedKey | Use premuliplied key or configure manually | [PremultipliedKey](#premultipliedkey) |
+
 ### `UpstreamKey`
 
+The following properties apply to all Upstream Key types:
+
+| Property | Description | Values |
+|---|---|---|
+| type | The type of USK | LumaKey, ChromaKey, PatternKey, DveKey |
+| index | The index of the Box (0 = first one) | Integer, > 0 |
+| onAir | Wheter to make the Upstream Key visible | Boolean |
+| fillInput | The input to use as fill | [Source](#source) |
+| scale | The scaling to apply | [Scale](#scale) |
+| position | The Position of the USK | [Position](#position) |
+
+#### `LumaKey`
+
+| Property | Description | Values |
+|---|---|---|
+| keyInput |  | |
+| mask | |  |
+| premultipliedKey |  |  |
+
+#### `ChromaKey`
+
+| Property | Description | Values |
+|---|---|---|
+| chromaSample |  | [Cursor](#cursor) |
+| mask | | [Mask](#mask) |
+| keyAdjustments |  | [KeyAdjustments](#keyadjustments) |
+| chromaCorrections |  | [ChromaCorrections](#chromacorrections) |
+| colorAdjustments |  | [ColorAdjustments](#coloradjustments) |
+
+##### `Cursor`
+
+| Property | Description | Values |
+|---|---|---|
+| enabled |  | Boolean |
+| size | | Double, 0 <= x <= 1 |
+| position |  | [Position](#position) |
+
+##### `KeyAdjustments`
+
+| Property | Description | Values |
+|---|---|---|
+| foregroundLevel |  | Double, 0 <= x <= 1 |
+| backgroundLevel | | Double, 0 <= x <= 1 |
+| keyEdge |  | Double, 0 <= x <= 1 |
+
+##### `ChromaCorrections`
+
+| Property | Description | Values |
+|---|---|---|
+| spillSuppress |  | Double, 0 <= x <= 1 |
+| flareSuppress |  | Double, 0 <= x <= 1 |
+
+
+##### `ColorAdjustments`
+
+| Property | Description | Values |
+|---|---|---|
+| brightness |  | Double, -1 <= x <= 1 |
+| contrast |  | Double, -1 <= x <= 1 |
+| saturation |  | Double, 0 <= x <= 2 |
+| red |  | Double, -1 <= x <= 1 |
+| green |  | Double, -1 <= x <= 1 |
+| blue |  | Double, -1 <= x <= 1 |
+
+
+#### `DveKey`
+
+| Property | Description | Values |
+|---|---|---|
+| mask | The mask to apply | [Mask](#mask) |
+| shadow | The shadow to show | [Shadow](#shadow) |
+| border | The border to configure | [Border](#border) |
+
+##### `Shadow`
+
+| Property | Description | Values |
+|---|---|---|
+| enabled | Whether actually configure it or leave unchanged | Boolean |
+| angle |  | Integer, 0 <= x <= 350 |
+| altitude |  | Integer, 10 <= x <= 100 |
+
+##### `Border`
+
+| Property | Description | Values |
+|---|---|---|
+| enabled | Whether actually configure it or leave unchanged | Boolean |
+| color |  | [HueColor](#huecolor) |
+| outerWidth |  | Double, 0 <= x <= 16 |
+| innerWidth |  | Double, 0 <= x <= 16 |
+| outerSoften |  | Double, 0 <= x <= 1 |
+| innerSoften |  | Double, 0 <= x <= 1 |
+| borderOpacity |  | Double, 0 <= x <= 1 |
+
+#### `PatternKey`
+
+| Property | Description | Values |
+|---|---|---|
+| pattern | | PushTopLeft, PushTop, PushTopRight, PushLeft, PushRight, PushBottomLeft, PushBottom, PushBottomRight, SqueezeTopLeft, SqueezeTop, SqueezeTopRight, SqueezeLeft, SqueezeRight, SqueezeBottomLeft, SqueezeBottom, SqueezeBottomRight, GraphicLogoWipe |
+| invertPattern |  | Boolean |
+| size |  | Double |
+| symmetry |  | Double |
+| softness |  | Double |
+| mask |  | [Mask](#mask) |
+| patternPosition |  | [Position](#position) |
 
 ## Common
 
@@ -664,3 +796,19 @@ ATEM uses strings to represent different input sources. The following list of in
 
 `Black`, `Camera1`, `Camera2`, `Camera3`, `Camera4`, `Camera5`, `Camera6`, `Camera7`, `Camera8`, `ColorBars`, `Color1`, `Color2`, `SuperSource`, `MediaPlayer1`, `MediaPlayer2`, `MediaPlayer1Key`, `MediaPlayer2Key`
 
+### Crop
+
+| Property | Description | Values |
+|---|---|---|
+| enabled | Whether actually configure it or leave unchanged | Boolean |
+| top | The amount of masking to apply | Double |
+| right | The amount of masking to apply | Double |
+| bottom | The amount of masking to apply | Double |
+| left | The amount of masking to apply | Double |
+
+### Scale
+
+| Property | Description | Values |
+|---|---|---|
+| x | The scale factor on the x axis | Double, >= 0 |
+| y | The scale factor on the y axis | Double, >= 0 |
