@@ -10,7 +10,6 @@ pack build $IMAGE_NAME \
   --timestamps \
   --builder paketobuildpacks/builder:base \
   --buildpack paketo-buildpacks/nginx \
-  -e BP_WEB_SERVER=nginx \
   -e BP_WEB_SERVER_ROOT=/workspace \
   --path . \
   --publish \
