@@ -2,6 +2,34 @@
 
 MeanStream was born out of the need to create complex, yet reliable macros for Blackmagic Design ATEM switchers. While tools exist that communicate with ATEM switchers over the network to manipulate switcher settings, MeanStream chooses the built-in macro functionality as a foundation to managing different ATEM settings that provides the necessary stability and performance to run animations smoothly. ATEM switchers allow the creation of macros by either recording configuration changes the user makes via the provided software or by writing and importing macros in XML format. MeanStream’s purpose is to produce macros in the XML format which can then be imported into ATEM devices.
 
+# What Do I Need?
+
+**Mandatory: Blackmagic Design ATEM:**
+
+There is only one thing, you really really need and that's a supported Blackmagic Design ATEM switcher. MeanStream mainly generates macros for ATEM switchers that can be triggered in mulitple ways including Blackmagic Design's ATEM Software Control application.
+
+Supported ATEM switchers include:
+
+- ATEM Mini
+- ATEM Mini Pro
+- ATEM Mini Pro ISO
+- ATEM Mini Extreme 
+- ATEM Mini Extreme ISO
+- ATEM 1 M/E Constellation HD
+- ATEM 2 M/E Constellation HD
+- ATEM 4 M/E Constellation HD
+- ATEM 2 M/E Production Studio 4K
+- ATEM Constellation 8K in 4K mode
+
+**Optional: Bitfocus Companion** 
+
+In addition to ATEM macros, MeanStream generates configuration for Bitfocus Companion which can be used to project buttons and pages of buttons onto, for example, an Elgato Stream Deck.
+
+**Optional: Elgato Streamdeck** 
+
+MeanStream works with the 15 button and the 32 button Stream Deck. 
+
+
 # Quick Start
 
 1. Go to https://meanstream.io and create an account. An account is necessary to keep 
@@ -91,33 +119,245 @@ A Project can be deleted from the Project settings page. Scrolling all the way d
 
 ## Creating Scenes
 
-## Scene Settings
+In the Project menu, click "Scenes" to see a list of Scenes available to that Project. Each 
+Scene is represented by a card which includes the name of the Scene, the main input source, a preview of the Scene and some buttons and controls.
+
+![image](_media/scene-create.png ':size=1000')
+
+By clicking the "Create Scene" button at the top, a new Scene is created with a default name and appended to the end of the list.
+
+## Rearranging Scenes
+
+The order in which the Scene appear is important. It will influence the order in which ATEM
+macros will be positioned in the macro pool. More importantly, this will also define the
+order in which buttons will appear on your Streamdeck.
+
+To change the order of Scene, toggle the "Rearrange" option at the top and use the arrow controls to move Scenes left or right. Changes will be saved immediately.
+
+![image](_media/scene-rearrange.png ':size=1000')
+
+## Scene Configuration
+
+Navigating into a Scene, the menu on the left will change it's context to that Scene and gives you access to various properties, configs and settings.
+
+### Settings
+
+**Name:** The name of the Scenes. Changing this will change the name of macros that transition to or from this Scene as well as Companion button configurations.
+
+**Enable:** By disabling a Scene, it will be excluded from ATEM macro and companion button
+generation. This feature can by used to treat a Scene as a template.
+
+![image](_media/scene-settings.png ':size=1000')
+
+### Video
+
+The "Video" button of the Scene menu, takes you to the Scene editor. Mostly, the video editor's layout is very close to what the corresponding configuration looks like in ATEM
+Sofware control. Therefore, we will cover only some important aspects in this guide.
+
+![image](_media/scene-video-editor.png ':size=1000')
+
+**Input Source:**
+In the top left corner, an input source must be selected. MeanStream
+uses a drop down menu for the selection instead of a button per input source as shown in ATEM Software control.
+
+![image](_media/asc-program.png ':size=400')
+
+**Checkboxes:**
+Super Sources, Hyperdecks, MediaPlayers, Upstream Keys, Downstream Keys and Color Generators have little checkboxes used to enable/disable the configuration. Disabling an element, will make sure the element is NOT visible in the Scene and any
+properties of the element will be left untouched.
+
+**Visibility:**
+Some elements, e.g. Super Source boxes, have an additional property to indicate visibility. To make such an elemement visible it must be enablend AND set to visible. This is useful to animate visibility in keyframe animations.
+
+**On Air Indicators:**
+
+MeanStream helps you quickly identify which parts of the Scene editor are currently
+relevant for the Scene by placing indicators at each element. The indicators show whether
+an element is **on air** (red) and **configured** (U).
+
+![image](_media/scene-video-onair-indicator.png ':size=400')
+
+**Drag & Drop:**
+
+The preview window as support for drag & drop based editing of positions, sizes and cropping for most of the available elements. Since input sources can be layered (USK, DKS)
+you can use the "Hide USKs" and "Hide DSK" controls to temporarily hide those layers if your want to edit elements in the background.
+
+![image](_media/scene-video-dragdrop.png ':size=1200')
+
+### Audio
+
+Audio controls are currently being reworked. The feature is disabled at the moment.
 
 ## Cloning Scenes
 
+Scenes can be cloned within the Project. This will create an exact copy of that Scene in 
+the Project including the name (!). The name MUST be changed in order to avoid conflicing 
+macro or Companion button names.
+
+![image](_media/scene-clone.png ':size=400')
+
 ## Deleting Scenes
 
-## Configuring Scenes
-
-### Video Editor
-
-### Audio Editor
+A Scene can be deleted from the Scene card context menu or its settings page. After confirming the deletion, the Scene will be irrevocably wiped off the face of this earth.
 
 
 # Transitions
 
 ## Creating & Deleting Transitions
 
+As described in a previous section, every Project defines a Transition template that applied to each pair of Scenes that is not explicitly configured. 
+
+The "Transitions" section in the Project menu, takes you to what's called the "Transition Matrix". You will see a tabular representation of each combination of Scenes (rows and columns). The respective cell represents the currently active Transition.
+
+Default Transitions generated from the Project's Transition template will be shown in light grey along with the text "(Default)". Any Transition shown in solid black color is explicitly configured.
+
+![image](_media/transition-matrix.png ':size=1200')
+
+To overwrite the Project default, simply click the cell with the default Transition. This will create an explicit Transition with the same configuration as the default Transition and take you to the Transition editor for editing. The editor allows you to change the Transition type along with all its properties.
+
+To delete an explicit Transition, go to the Transition editor and hit "Delete". After confirming the deletion, you will be taken back to the Transition Matrix. The Transition for this pair of Scenes will fallback to the Project's default.
+
 ## Native Transitions
+
+MeanStream supports all ATEM native Transitions including Cut, Mix, Dip, Wipe, DVE and Stinger (Media Player Stinger) if supported by the ATEM model.
+
+![image](_media/transition-types-native.png ':size=1200')
+
+If you know ATEM Software Control and the ATEM's Transition types, you should find your way around easily.
 
 ## MeanStream Transitions
 
-### Hyperdeck Stinger
+MeanStream extends the ATEM's capabilities by providing additional Transition types implemented
+via ATEM macros:
+
+![image](_media/transition-types-meanstream.png ':size=1200')
+
+### Hyperdeck Stinger Transition
+
+ATEM's support connecting Hyperdeck devices which can be used as video players that feed into the ATEM. If configured in the Project settings, the Hyperdeck Stinger Transition will appear in the Transition editor.
+
+This Transition works roughly like this:
+
+1. Set up the target Scene configuration in the ATEM's preview
+2. Configure and activate a Downstream Key in the program that overlays the Hyperdeck's input
+3. Play the clip on the Hyperdeck
+4. Cut preview to program at the right time.
+
+![image](_media/hyperdeck-stinger-hd-config.png ':size=1200')
+
+**Hyperdeck Selection:**
+Choose the Hyperdeck you want to use. It MUST be configured in the Project settings.
+
+**Hyperdeck Settings:**
+Configure the clip to play.
+
+**Clip Information:**
+![image](_media/hyperdeck-stinger-clip-settings.png ':size=1200')
+
+**Downstream Key Settings:**
+
+MeanStream does not know the HDMI/SDI input the Hyperdeck is connected to. Make sure to configure this correctly in the Downstream Key settings:
+
+![image](_media/hyperdeck-stinger-dsk-settings.png ':size=1200')
 
 ### Animated Transition
 
+Unlike other Transition types, the Animated Transition is NOT based on the classic preview/program workflow but manipulates the ATEM settings live. MeanStream animations are **based on keyframes** which gives you great power of the animation flow.
+
+Any Transition consists of a "source" and a "target" Scene which represent the first and the last keyframe of the Animation. This is enough to generate an animation but you may specify additional keyframes for more complex animations. MeanStream allows animating ANY propery of the Scene configuration including colors, premultiplied key settings and everything else.
+
+Animated Transitions are a complex thing to configure and a user interface has not been developed, yet. As an alternative, you may use the code editor to textually configure the animation in YAML format.
+
+![image](_media/transition-editor-ui-not-implemented.png ':size=1200')
+
+![image](_media/transition-editor-code-example.png ':size=1200')
+
+#### Properties
+
+**rate:** The rate defines the duration of the animation in milliseconds.
+
+**keyframes:** A list of keyframes that sit in between the Transition's source and target Scenes.
+
+**configs.properties:** Configuration properties that tell MeanStream how to animated certain values like positions, sizes etc. 
+
+Check the following sections for details.
+
+#### Keyframes
+
+##### Properties
+
+| Property | Description |
+|---|---|
+| **timestamp** | The timestamp describes at which point of the animation, the keyframe is positioned. The value is a percentage in decimal notation (0 = 0%, 1 = 100%) and is interpreted relative to the rate. Example: If you want the animation to take 2 seconds, you need to set the value for rate to 2000. A keyframe with a timestamp of 0.25 is located at 25% of 2000 milliseconds = 500ms. |
+| **config** | The config property describes the entire Scene as it should be at that point in time of the timestamp. Values that are not to be changed can be left black, so that each key frame describes a diff relative to the keyframe before (Scenes are keyframes, too). Check the API Schema documentation section for details. |
+
+For a a detailed describtion of the "config" object, refer to the API Schema section.
+
+##### Merging
+
+As mentioned before, a Transition's source and destination Scenes represent the first and the last keyframe of the animation. Translating that to timestamps: The source scene is at 0.0, the target Scene at 1.0. What if you define a keyframe with one of those timestamps?
+
+The keyframe with timestamp 0.0 will be merged into the source Scene and be deleted.
+
+The keyframe with timestamp 1.0 will be merged into the target Scene an deleted.
+
+#### Animation Configs
+
+Animation configs allow you to describe how a particular property is to animated through the key frames. All configs are located under `configs.properties`. A **selector** selects the property from the key frame `config` and configure that property only.
+
+| Property | Description |
+|---|---|
+| [selector] | A string to identify the property for which to configure animation behavior. Check the API Schema documentation section for details on the structure and allowed values.<br><br>Example: `/superSources/0/boxes/0/position` targets the first box in the first Super Source of the ATEM.<br><br> Wildcards are allow such as `/superSources/0/boxes/*/position` to target all the boxes of the Super Source. |
+| [selector].interpolation | Interpolation describes how MeanStream will generate values between key frames. Valid values are `NONE`, `LINEAR` and `CUBIC`. |
+| [selector].easing | Easing describes acceleration and decelleration behavior during the animation. Check the API Schema documentation for valid values.|
+
 ### Composite Transition
 
+There are situations in which other Animation Transition reach their limits or it is very hard to implement a specific behavior using only a single Animated Transition. For such situation,s Composite Transitions allow you to chain other Transitions and "execute" them in sequence.
+
+| Property | Description |
+|---|---|
+| transitions | A list of embedded Transitions to be executed in sequence. |
+
+Embedded Transitions have to adher to the following format:
+
+| Property | Description |
+|---|---|
+| config | The transition configuration including the `type` (Cut, Dip, Wipe, etc). Check the API Schema documentation for details. |
+| to | The scene definition to transition to (target scene) |
+
+There is no source scene required as the source scene config is defined by the previous embedded transition or the Composite Transition's source Scene in case of the first embedded Transition.
+
+The `to` value of the last embedded Transition can be left unspecified. In that case, the Composite Transition's target Scene will be used.
+
+**Example:**
+```yaml
+transitions:
+  - to:
+      source: Camera3
+      upstreamKeys:
+        - type: PatternKey
+          index: 0
+          ...
+    config:
+      type: Cut
+  - config:
+      rate: 3000
+      keyframes:
+        - timestamp: 0.5
+          config:
+            upstreamKeys:
+              - type: PatternKey
+                index: 0
+                ...
+      configs:
+        properties:
+          /upstreamKeys/0/*:
+            interpolation: LINEAR
+            easing: CUBIC_EASE_IN_OUT
+      type: Animated
+type: Composite
+```
 
 
 # Bundles
@@ -131,3 +371,8 @@ A Project can be deleted from the Project settings page. Scrolling all the way d
 ### Supported Devices
 
 ### Importing Pages & Buttons
+
+
+# API Schema
+
+Easing describes acceleration and decelleration during the animation. Valid values are `NONE`, `CUBIC_EASE_IN`, `CUBIC_EASE_OUT`, `CUBIC_EASE_IN_OUT`, `QUADRATIC_EASE_IN`, `QUADRATIC_EASE_OUT`, `QUADRATIC_EASE_IN_OUT`
