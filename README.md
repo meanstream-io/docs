@@ -498,6 +498,39 @@ No further properties.
 
 #### Selector
 
+The selector is used to identify one or multiple properties in a [SceneConfig](#sceneconfig) object. It is in string format and separates subselectors by a `/` (slash) character similar to files and paths on a storage device. Selectors support wildcards (`*`) to match any property. When indexing into lists, a number is used that matches the `index` property of the object in the list.
+
+Examples:
+
+| Selector | Description |
+|---|---|
+| `/superSources/0` | The first SuperSource |
+| `/superSources/*` | All SuperSources |
+| `/superSources/0/boxes/0` | The first Box in the first SuperSource |
+| `/superSources/*/boxes/*` | All Boxes in all SuperSources |
+
+Note that the above examples do not match a property, yet. Boxes have properties that can be animated, so actual working examples would be the following:
+
+| Selector | Description |
+|---|---|
+| `/superSources/*/boxes/*/position` | The Position of all Boxes |
+| `/superSources/*/boxes/*/size` | The size of all Boxes |
+
+The following is a list of all currently supported Selectors using wildcards for all lists in the path:
+
+- `/superSources/*/boxes/*/visible`
+- `/superSources/*/boxes/*/source`
+- `/superSources/*/boxes/*/position`
+- `/superSources/*/boxes/*/size`
+- `/superSources/*/boxes/*/crop`
+- `/colors/*/`
+- `/upstreamKeys/*/scale` (Pattern, Luma)
+- `/upstreamKeys/*/position`  (Pattern, Luma)
+- `/upstreamKeys/*/crop` (Pattern, Luma)
+- `/upstreamKeys/*/patternPosition` (Pattern)
+- `/upstreamKeys/*/size` (Pattern)
+- `/upstreamKeys/*/symmetry` (Pattern)
+- `/upstreamKeys/*/softness` (Pattern)
 
 #### `KeyFrame`
 
