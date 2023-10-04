@@ -435,65 +435,65 @@ No further properties.
 
 | Property | Description | Values |
 |---|---|---|
-| rate |  | Integer, > 0 |
-| dipSource |  | [Source](#Source) |
-| color |  | [ColorGenerator](#ColorGenerator) |
-| mediaPlayer |  | [MediaPlayer](#MediaPlayer) |
+| rate | The time in milliseconds for the transition to take. | Integer, > 0 |
+| dipSource | The source to dip to. | [Source](#Source) |
+| color | If `dipSource` is a color generator, the configuration of that object. | [ColorGenerator](#ColorGenerator) |
+| mediaPlayer | If `dipSource` is MediaPlayer or MediaPlayerKey, the configuration of that object. | [MediaPlayer](#MediaPlayer) |
 
 ### `WipeTransitionConfig`
 
 | Property | Description | Values |
 |---|---|---|
-| rate |  | Integer, > 0 |
-| mode |  | LeftToRightBar, TopToBottomBar, HorizontalBarnDoor, VerticalBarnDoor, CornersInFourBox, RectangleIris, DiamondIris, CircleIris, TopLeftBox, TopRightBox, BottomRightBox, BottomLeftBox, TopCentreBox, RightCentreBox, BottomCentreBox, LeftCentreBox, TopLeftDiagonal, TopRightDiagonal |
-| symmetry |  | Double, 0 <= x <= 1 |
-| position |  | [Position](#Position) |
-| reverse |  | Boolean |
-| flipFlop |  | Boolean |
-| borderSoftness |  | Double, 0 <= x <= 1 |
-| borderWidth |  | Double, 0 <= x <= 1 |
-| borderFillInput |  | [Source](#Source) |
+| rate | The time in milliseconds for the transition to take. | Integer, > 0 |
+| mode | The wipe mode to configure | LeftToRightBar, TopToBottomBar, HorizontalBarnDoor, VerticalBarnDoor, CornersInFourBox, RectangleIris, DiamondIris, CircleIris, TopLeftBox, TopRightBox, BottomRightBox, BottomLeftBox, TopCentreBox, RightCentreBox, BottomCentreBox, LeftCentreBox, TopLeftDiagonal, TopRightDiagonal |
+| symmetry | The symmetry of the `mode` if applicable | Double, 0 <= x <= 1 |
+| position | The position of the `mode` if applicable | [Position](#Position) |
+| reverse | Reverse the direction of the transition | Boolean |
+| flipFlop | Switch between directions when transitioning multiple times | Boolean |
+| borderSoftness | The softness of the border | Double, 0 <= x <= 1 |
+| borderWidth | The width of th eborder | Double, 0 <= x <= 1 |
+| borderFillInput | The input source to use for the border | [Source](#Source) |
 
 ### `DveTransitionConfig`
 
 | Property | Description | Values |
 |---|---|---|
-| rate |  | Integer, > 0 |
-| pattern |  | PushTopLeft, PushTop, PushTopRight, PushLeft, PushRight, PushBottomLeft, PushBottom, PushBottomRight, SqueezeTopLeft, SqueezeTop, SqueezeTopRight, SqueezeLeft, SqueezeRight, SqueezeBottomLeft, SqueezeBottom, SqueezeBottomRight, GraphicLogoWipe |
-| reverse |  | Boolean |
-| flipFlop |  | Boolean |
-| premultipliedKey |  | [PremultipliedKey](#premultipliedkey) |
-| fillInput |  | [Source](#Source) |
-| cutInputEnable |  | Boolean |
-| cutInput |  | [Source](#Source) |
+| rate | The time in milliseconds for the transition to take. | Integer, > 0 |
+| pattern | The DVE pattern to configure | PushTopLeft, PushTop, PushTopRight, PushLeft, PushRight, PushBottomLeft, PushBottom, PushBottomRight, SqueezeTopLeft, SqueezeTop, SqueezeTopRight, SqueezeLeft, SqueezeRight, SqueezeBottomLeft, SqueezeBottom, SqueezeBottomRight, GraphicLogoWipe |
+| reverse | Reverse the direction of the transition | Boolean |
+| flipFlop | Switch between directions when transitioning multiple times | Boolean |
+| premultipliedKey | Use premuliplied key or configure manually | [PremultipliedKey](#premultipliedkey) |
+| fillInput | The fill input | [Source](#Source) |
+| cutInputEnable | Enable or disable the key input | Boolean |
+| cutInput | The key input | [Source](#Source) |
 
 ### `MediaPlayerStingerTransitionConfig`
 
 | Property | Description | Values |
 |---|---|---|
-| clipDurationMillis |  | Integer, > 0 |
-| triggerPointMillis |  | Integer, > 0 |
+| clipDurationMillis | The duratio of the clip | Integer, > 0 |
+| triggerPointMillis | The point at which to cut to the new scene | Integer, > 0 |
 | mixRateMillis |  | Integer, > 0 |
-| preRollMillis |  | Integer, > 0 |
-| mediaPlayer |  | [MediaPlayer](#MediaPlayer) |
+| preRollMillis | The time to run the clip before displaying it | Integer, > 0 |
+| mediaPlayer | The media player settings for the transition | [MediaPlayer](#MediaPlayer) |
 
 ### `HyperdeckStingerTransitionConfig`
 
 | Property | Description | Values |
 |---|---|---|
-| clipDurationMillis |  | Integer, > 0 |
-| triggerPointMillis |  | Integer, >= 0 |
-| mixRateMillis |  | Integer, >= 0 |
-| preRollMillis |  | Integer, >= 0 |
-| downstreamKey |  | [DownstreamKey](#downstreamkey) |
-| hyperdeck |  | [Hyperdeck](#hyperdeck) |
+| clipDurationMillis | The duratio of the clip | Integer, > 0 |
+| triggerPointMillis | The point at which to cut to the new scene | Integer, >= 0 |
+| mixRateMillis | | Integer, >= 0 |
+| preRollMillis | The time to run the clip before displaying it | Integer, >= 0 |
+| downstreamKey | The DSK and DSK settings to apply to render the clip | [DownstreamKey](#downstreamkey) |
+| hyperdeck | The Hyperdeck config to play the clip  | [Hyperdeck](#hyperdeck) |
 
 ### `AnimatedTransitionConfig`
 
 | Property | Description | Values |
 |---|---|---|
-| rate |  | Integer, > 0 |
-| keyframes |  | [KeyFrame](#keyframe)[] |
+| rate | The time in milliseconds for the transition to take. | Integer, > 0 |
+| keyframes | A list of keyframes between the Transition's source and target SceneConfig | [KeyFrame](#keyframe)[] |
 | configs.properties | Maps a [Selector](#selector) to an [AnimationConfig](#animationconfig) object | Map<String, AnimationConfig> |
 
 #### Selector
@@ -536,44 +536,51 @@ The following is a list of all currently supported Selectors using wildcards for
 
 | Property | Description | Values |
 |---|---|---|
-| timestamp |  | Double, 0 <= x <= 1 |
-| config |  | [SceneConfig](#sceneconfig) |
+| timestamp | The time within the duration of the animation | Double, 0 <= x <= 1 |
+| config | The configuration that is effective at that time | [SceneConfig](#sceneconfig) |
+
+**Timestamp:** The timestamp is a percentage relative to the duration (rate) or the Transition. `0` and `1` represent the first and last keyframes and trigger [merging](#merging) (!)
 
 #### `AnimationConfig`
 
 | Property | Description | Values |
 |---|---|---|
-| interpolation |  | NONE, LINEAR, CUBIC |
-| easing |  | NONE, CUBIC_EASE_IN, CUBIC_EASE_OUT, CUBIC_EASE_IN_OUT, QUADRATIC_EASE_IN, QUADRATIC_EASE_OUT, QUADRATIC_EASE_IN_OUT |
+| interpolation | The interpolation method to use. | NONE, LINEAR, CUBIC |
+| easing | The method used to accelerator or decelerate the animation. | NONE, CUBIC_EASE_IN, CUBIC_EASE_OUT, CUBIC_EASE_IN_OUT, QUADRATIC_EASE_IN, QUADRATIC_EASE_OUT, QUADRATIC_EASE_IN_OUT |
+
+**Interpolation:** Interpolation describes the method to calculate values between 2 KeyFrames. `NONE` will retain the current value until the next KeyFrame defines a new value. `LINEAR` will gradually approach the value of the next KeyFrame. The value `CUBIC` has an effect only on `Position` properties and generates a curved line through all defined coordinates.
+
+**Easing:** Easing defines acceleration or decelleration in the change of the value over time. `NONE` will result in same-speed animation across the entire animation. `CUBIC*` and `QUADRATIC*` stand for different levels of "aggressiveness" in the acceleration or decelleration. `IN` and `OUT` represent acceleration and deceleration respectively. So, if you want slight acceleration and and abrupt stop you would choose `CUBIC_EASE_IN`.
 
 ### `CompositeTransitionConfig`
 
 | Property | Description | Values |
 |---|---|---|
-| transitions |  | [EmbeddedTransition](#embeddedtransition)[] | 
+| transitions | A list of transitions that will be executed in order | [EmbeddedTransition](#embeddedtransition)[] | 
 
 #### `EmbeddedTransition`
 
 | Property | Description | Values |
 |---|---|---|
-| to |  | [SceneConfig](#sceneconfig) |
-| config |  | [TransitionConfig](#transitionconfig) |
+| to | The target configuration to transition to. | [SceneConfig](#sceneconfig) |
+| config | The type and configuration of the Transition | [TransitionConfig](#transitionconfig) |
 
 ## `SceneConfig`
 
 | Property | Description | Values |
 |---|---|---|
-| source |  | [Source](#Source) |
-| superSources |  | [SuperSource](#supersource)[] |
-| upstreamKeys |  | [UpstreamKey](#upstreamkey)[] |
-| downstreamKeys |  | [DownstreamKey](#downstreamkey)[] |
-| hyperdecks |  | [Hyperdeck](#hyperdeck)[] |
-| mediaPlayers |  | [MediaPlayer](#MediaPlayer)[] |
-| colorGenerators |  | [ColorGenerator](#ColorGenerator)[] |
+| source | The input source to display in the program output | [Source](#Source) |
+| superSources | A list of SuperSources | [SuperSource](#supersource)[] |
+| upstreamKeys | A list of Upstream Keys  | [UpstreamKey](#upstreamkey)[] |
+| downstreamKeys | A list of Downstream Keys | [DownstreamKey](#downstreamkey)[] |
+| hyperdecks | A list of Hyperdecks | [Hyperdeck](#hyperdeck)[] |
+| mediaPlayers | A list of Media Players | [MediaPlayer](#MediaPlayer)[] |
+| colorGenerators | A list of Color Generators | [ColorGenerator](#ColorGenerator)[] |
 
 ### `SuperSource`
 
 ### `UpstreamKey`
+
 
 ## Common
 
@@ -588,85 +595,70 @@ The following is a list of all currently supported Selectors using wildcards for
 
 | Property | Description | Values |
 |---|---|---|
-| index |  | Integer, > 0 |
-| enabled |  | Boolean |
-| color |  | [HueColor](#huecolor) |
+| index | The index of the ColorGenerator (0 = the first color) | Integer, > 0 |
+| enabled | Whether actually configure it or leave unchanged | Boolean |
+| color | The color to configure. | [HueColor](#huecolor) |
 
 ### `HueColor`
 
 | Property | Description | Values |
 |---|---|---|
-| hue |  | Double, 0 <= x <= 359|
-| sat |  | Double, 0 <= x <= 1 |
-| lum |  | Double,, 0 <= x <= 1 |
+| hue | The hue value | Double, 0 <= x <= 359|
+| sat | The saturation | Double, 0 <= x <= 1 |
+| lum | The luminiscence | Double,, 0 <= x <= 1 |
 
 ### `MediaPlayer`
 
 | Property | Description | Values |
 |---|---|---|
-| index |  | Integer, >= 0|
-| enabled |  | Boolean |
-| stillIndex |  | Integer, >= 0|
-| clipIndex |  | Integer, >= 0 |
+| index | The index of the Media Player (0 = the first one) | Integer, >= 0|
+| enabled | Whether actually configure it or leave unchanged | Boolean |
+| stillIndex | The index of the still to load | Integer, >= 0|
+| clipIndex | The index of the clip to load | Integer, >= 0 |
 
 ### `DownstreamKey`
 
 | Property | Description | Values |
 |---|---|---|
-| index |  | Integer, >= 0|
-| fillSource |  | [Source](#Source) |
-| keySource |  | [Source](#Source) |
-| mask |  | [Mask](#mask) |
-| premultipliedKey |  | [PremultipliedKey](#premultipliedkey) |
-| onAir |  | Boolean |
+| index | The index of the Downstream Key (0 = the first one)  | Integer, >= 0|
+| fillSource | The fill source to use | [Source](#Source) |
+| keySource | The key source to use | [Source](#Source) |
+| mask | The mask to apply | [Mask](#mask) |
+| premultipliedKey | Use premuliplied key or configure manually | [PremultipliedKey](#premultipliedkey) |
+| onAir | Whether to make this DSK visible | Boolean |
 
 ### `Mask`
 
 | Property | Description | Values |
 |---|---|---|
-| enabled |  | Boolean |
-| top |  | Double, -9 <= x <= 9 |
-| right |  | Double, -16 <= x <= 16 |
-| bottom |  | Double, -9 <= x <= 9 |
-| left |  | Double, -16 <= x <= 16 |
+| enabled | Whether actually configure it or leave unchanged | Boolean |
+| top | The amount of masking to apply | Double, -9 <= x <= 9 |
+| right | The amount of masking to apply | Double, -16 <= x <= 16 |
+| bottom | The amount of masking to apply | Double, -9 <= x <= 9 |
+| left | The amount of masking to apply | Double, -16 <= x <= 16 |
 
 ### `PremultipliedKey`
 
 | Property | Description | Values |
 |---|---|---|
-| enabled |  | Boolean |
-| clip |  | Double, 0 <= x <= 1 |
-| gain |  | Double, 0 <= x <= 1 |
-| invert |  | Boolean |
+| enabled | Whether actually configure it or leave unchanged | Boolean |
+| clip | The clip value | Double, 0 <= x <= 1 |
+| gain | The gain value | Double, 0 <= x <= 1 |
+| invert | Whether to invert the key | Boolean |
 
 ### `Hyperdeck`
 
 | Property | Description | Values |
 |---|---|---|
-| index |  | Integer, >= 0 |
-| enabled |  | Boolean |
-| mode |  | PLAY_ONCE, PLAY_AND_LOOP, PLAY_AND_CONTINUE, STOP |
-| clipIndex |  | Integer, >= 0 |
-| speedPercent |  | Double, 0 <= x <= 1 |
+| index | The index of the Hyperdeck (0 = the first one) | Integer, >= 0 |
+| enabled | Whether actually configure it or leave unchanged | Boolean |
+| mode | The playback mode | PLAY_ONCE, PLAY_AND_LOOP, PLAY_AND_CONTINUE, STOP |
+| clipIndex | The index of the clip to play | Integer, >= 0 |
+| speedPercent | The playback speed | Double, 0 <= x <= 1 |
 
 ### Source
 
 ATEM uses strings to represent different input sources. The following list of input sources comes from an ATEM Mini Extreme but shows quite well the format and pattern:
 
-- Black
-- Camera1
-- Camera2
-- Camera3
-- Camera4
-- Camera5
-- Camera6
-- Camera7
-- Camera8
-- ColorBars
-- Color1
-- Color2
-- SuperSource
-- MediaPlayer1
-- MediaPlayer2
-- MediaPlayer1Key
-- MediaPlayer2Key
+`Black`, `Camera1`, `Camera2`, `Camera3`, `Camera4`, `Camera5`, `Camera6`, `Camera7`, `Camera8`, `ColorBars`, `Color1`, `Color2`, `SuperSource`, `MediaPlayer1`, `MediaPlayer2`, `MediaPlayer1Key`, `MediaPlayer2Key`
+
