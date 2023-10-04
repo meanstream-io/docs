@@ -44,9 +44,9 @@ MeanStream uses Projects, Scenes and Transitions to produce the macros you need.
 
 Projects allow you to manage different sets of Scenes. Each project represents an event, live stream or recording that you are planning or have already performed. While configuration changes are possible, each Project is designed to run on a specific ATEM model which should be configured upfront.
 
-A Scene represents a specific configuration the ATEM devices should be in. Scenes can be as simple as “show camera 1 fullscreen” but may include advanced configurations such as multiple boxes, overlays and other effects.
+A Scene represents a specific configuration the ATEM devices should be in. Scenes can be as simple as “show camera 1 fullscreen" but may include advanced configurations such as multiple boxes, overlays and other effects.
 
-Transitions describe the process of getting from one Scene to another. ATEM devices support several built-in transitions such as “Mix”, “Dip” or “Wipe” among others. MeanStream allows you to utilize all of the built-in functionality and adds additional capabilities where possible. Transitions may include animations of various properties (position, size, etc) of video sources for more professionally looking results. MeanStream generates default but configurable Transitions for every combination of Scenes.
+Transitions describe the process of getting from one Scene to another. ATEM devices support several built-in transitions such as “Mix", “Dip" or “Wipe" among others. MeanStream allows you to utilize all of the built-in functionality and adds additional capabilities where possible. Transitions may include animations of various properties (position, size, etc) of video sources for more professionally looking results. MeanStream generates default but configurable Transitions for every combination of Scenes.
 
 ![image](_media/scenes-and-transitions.png)
 
@@ -359,33 +359,262 @@ transitions:
 type: Composite
 ```
 
-
 # Bundles
 
-## Downloading A Bundle
+Every Project allows you to view and download generated configuration as a ZIP file. The export function can be found in the Project's menu on the left and is called "Bundle".
+
+![image](_media/project-bundle-menu.png ':size=300')
+
+This opens the the Bundle page which displays an embedded text editor and a file browser on the right hand side.
+
+![image](_media/project-bundle-file-viewer.png ':size=1200')
+
+To download the ZIP file click the "Download ZIP" button at the top of the page.
 
 ## ATEM Configuration
 
+The "atem.xml" file contains XML formatted data that you may import into your ATEM device. For compatibility with your device it mentions your ATEM model name line 0 as the “product" attribute. The important bit is the macro pool and the macro sections within. Each macro then contains a set of operations (“Op"). The operations of a macro manage the transition from one Scene to another. In the screenshot below, the macro with index 99 (last macro in the pool) is meant to transition from the Scene “SPEAKER" to “WHITEBO". These are the "name" properties (not display name!) of the respective Scenes.
+
+To import the macros into your ATEM proceed as follows:
+
+1. Open ATEM Software Control
+2. Go File -> Restore
+3. Select the "atem.xml" file and hit "Restore"
+4. In the Restore window, make sure the “Macros" option is selected and hit "Restore"
+
+After the import process has finished successfully, macros can be viewed and executed from within ATEM Software Control or via Bitfocus Companion (see next section). In ATEM Software Control macros can be found via the Macros -> Macros menu and triggered from the "Run" section.
+
+Keep in mind that MeanStream fills the macro pool from the end, so you need to navigate to the last page in the “Macros" window to find the first macro.
+
 ## Bitfocus Companion
+
+With a total of `n*(n-1)` (n = the number of Scenes) macros in the macro pool it is almost impossible to find the right macro for the next Transition in a reasonable amount of time. MeanStream generates a configuration file for Bitfocus Companion which can be used in conjunction with an Elgato Stream Deck to trigger the right macros at the right time.
+
+![image](_media/companion-example.png ':size=1200')
+
+For each Scene, MeanStream generates a Companion page such as illustrated in the screenshot above. Each page contains buttons that trigger only those macros to transition from exactly that Scene to any other Scene. So with n Scenes, there will be n-1 buttons on any page that trigger macros. When such a button is pressed, the respective macro is triggered and Companion will navigate to the page of the destination Scene. This way, the user will always see the right buttons that trigger the right macros without having to worry about finding the right macro manually.
+
+In addition to the macro buttons, each pages contains two navigation buttons (page up, page down) to manually navigate the pages. Another button is used to indicate the current Scene.
 
 ### Supported Devices
 
+The navigation and Scene indicator buttons mentioned above are generated to be stacked on top of each other in the leftmost column of the Stream Deck. This means the Stream Deck in use must have at least three rows of buttons.
+
+With a maximum of 10 Scenes due to limitations of the ATEM macro pool, a button page can have a maximum of 9 macro buttons. This plus the mandatory 3 buttons for navigation and the Scene label, result in a maximum of 13 buttons to be used by MeanStream. Therefore, the best fit for MeanStream are the 15 button models of the Elgato Stream Deck. Larger models can be used but there will always be a significant amount of empty and unused hardware buttons.
+
+| Model | Buttons | Rows | Supported | Wasted Buttons |
+|---|---|---|---|---|
+| Stream Deck Mini | 6 | 2 | no | n/a |
+| Stream Deck + | 8 | 2 | no | n/a |
+| Stream Deck MK.2 | 18 | 3 | yes | > 2 |
+| StreamDeck XL | 32 | 4 | yes | > 19 |
+
 ### Importing Pages & Buttons
+
+To import MeanStream’s Companion buttons proceed as follows:
+
+1. Open your Bitfocus Companion administration page
+2. Navigate to the “Buttons” tab
+3. On the right side of the screen, navigate to the “Import / Export” tab
+4. Click the “Import” button
 
 
 # API Schema
 
-## SceneConfig
+## `TransitionConfig`
 
-## Transition
+| Property | Description | Values |
+|---|---|---|
+| type | The type of the transition. Refer to respective section below for more properties. | `Cut`, `Dip`, `Wipe`, `DVE`, `MediaPlayerStinger`, `HyperdeckStinger`, `Animated`, `Composite` |
 
-### Cut 
+### `CutTransitionConfig`
 
-### Dip 
+No further properties.
 
-### Wipe
+### `DipTransitionConfig`
 
-### DVE
+| Property | Description | Values |
+|---|---|---|
+| rate |  | Integer, > 0 |
+| dipSource |  | [Source](#Source) |
+| color |  | [ColorGenerator](#ColorGenerator) |
+| mediaPlayer |  | [MediaPlayer](#MediaPlayer) |
+
+### `WipeTransitionConfig`
+
+| Property | Description | Values |
+|---|---|---|
+| rate |  | > 0 |
+| mode |  | LeftToRightBar, TopToBottomBar, HorizontalBarnDoor, VerticalBarnDoor, CornersInFourBox, RectangleIris, DiamondIris, CircleIris, TopLeftBox, TopRightBox, BottomRightBox, BottomLeftBox, TopCentreBox, RightCentreBox, BottomCentreBox, LeftCentreBox, TopLeftDiagonal, TopRightDiagonal |
+| symmetry |  | Double, 0 <= x <= 1 |
+| position |  | [Position](#Position) |
+| reverse |  | Boolean |
+| flipFlop |  | Boolean |
+| borderSoftness |  | Double |
+| borderWidth |  | Double |
+| borderFillInput |  | [Source](#Source) |
+
+### `DveTransitionConfig`
+
+| Property | Description | Values |
+|---|---|---|
+| rate |  | Integer, > 0 |
+| pattern |  | PushTopLeft, PushTop, PushTopRight, PushLeft, PushRight, PushBottomLeft, PushBottom, PushBottomRight, SqueezeTopLeft, SqueezeTop, SqueezeTopRight, SqueezeLeft, SqueezeRight, SqueezeBottomLeft, SqueezeBottom, SqueezeBottomRight, GraphicLogoWipe |
+| reverse |  | Boolean |
+| flipFlop |  | Boolean |
+| premultipliedKey |  | [PremultipliedKey](#premultipliedkey) |
+| fillInput |  | [Source](#Source) |
+| cutInputEnable |  | Boolean |
+| cutInput |  | [Source](#Source) |
+
+### `MediaPlayerStingerTransitionConfig`
+
+| Property | Description | Values |
+|---|---|---|
+| clipDurationMillis |  | Integer, > 0 |
+| triggerPointMillis |  | Integer, > 0 |
+| mixRateMillis |  | Integer, > 0 |
+| preRollMillis |  | Integer, > 0 |
+| mediaPlayer |  | [MediaPlayer](#MediaPlayer) |
+
+### `HyperdeckStingerTransitionConfig`
+
+| Property | Description | Values |
+|---|---|---|
+| clipDurationMillis |  | Integer, > 0 |
+| triggerPointMillis |  | Integer, >= 0 |
+| mixRateMillis |  | Integer, >= 0 |
+| preRollMillis |  | Integer, >= 0 |
+| downstreamKey |  | [DownstreamKey](#downstreamkey) |
+| hyperdeck |  | [Hyperdeck](#hyperdeck) |
+
+### `AnimatedTransitionConfig`
+
+| Property | Description | Values |
+|---|---|---|
+| rate |  | Integer, > 0 |
+| keyframes |  | [KeyFrame](#keyframe)[] |
+| configs.properties | Maps a [Selector](#selector) to an [AnimationConfig](#animationconfig) object | Map<String, AnimationConfig> |
+
+#### Selector
 
 
-Easing describes acceleration and decelleration during the animation. Valid values are `NONE`, `CUBIC_EASE_IN`, `CUBIC_EASE_OUT`, `CUBIC_EASE_IN_OUT`, `QUADRATIC_EASE_IN`, `QUADRATIC_EASE_OUT`, `QUADRATIC_EASE_IN_OUT`
+#### `KeyFrame`
+
+| Property | Description | Values |
+|---|---|---|
+| timestamp |  | 0 <= x >= 1 |
+| config |  | [SceneConfig](#sceneconfig) |
+
+#### `AnimationConfig`
+
+| Property | Description | Values |
+|---|---|---|
+| interpolation |  | NONE, LINEAR, CUBIC |
+| easing |  | NONE, CUBIC_EASE_IN, CUBIC_EASE_OUT, CUBIC_EASE_IN_OUT, QUADRATIC_EASE_IN, QUADRATIC_EASE_OUT, QUADRATIC_EASE_IN_OUT |
+
+### `CompositeTransitionConfig`
+
+| Property | Description | Values |
+|---|---|---|
+| transitions |  | [EmbeddedTransition](#embeddedtransition)[] | 
+
+#### `EmbeddedTransition`
+
+| Property | Description | Values |
+|---|---|---|
+| to |  | [SceneConfig](#sceneconfig |
+| config |  | [TransitionConfig](#transitionconfig) |
+
+## `SceneConfig`
+
+| Property | Description | Values |
+|---|---|---|
+| source |  | [Source](#Source) |
+| superSources |  | [SuperSource](#supersource)[] |
+| upstreamKeys |  | [UpstreamKey](#upstreamkey)[] |
+| downstreamKeys |  | [DownstreamKey](#downstreamkey)[] |
+| hyperdecks |  | [Hyperdeck](#hyperdeck)[] |
+| mediaPlayers |  | [MediaPlayer](#MediaPlayer)[] |
+| colorGenerators |  | [ColorGenerator](#ColorGenerator)[] |
+
+### `SuperSource`
+
+### `UpstreamKey`
+
+## Common
+
+### `Position`
+
+| Property | Description | Values |
+|---|---|---|
+| x | The x coordinate | Double |
+| y | The y coordinate | Double |
+
+### `ColorGenerator`
+
+| Property | Description | Values |
+|---|---|---|
+| index |  | Integer, > 0 |
+| enabled |  | Boolean |
+| color |  | HueColor |
+
+### `HueColor`
+
+| Property | Description | Values |
+|---|---|---|
+| hue |  | Double |
+| sat |  | Double |
+| lum |  | Double |
+
+### `MediaPlayer`
+
+| Property | Description | Values |
+|---|---|---|
+| index |  | Integer |
+| enabled |  | Boolean |
+| stillIndex |  | Integer |
+| clipIndex |  | Integer |
+
+### `DownstreamKey`
+
+| Property | Description | Values |
+|---|---|---|
+| index |  | Integer |
+| fillSource |  | [Source](#Source) |
+| keySource |  | [Source](#Source) |
+| mask |  | Mask |
+| premultipliedKey |  | [PremultipliedKey](#premultipliedkey) |
+| onAir |  | Boolean |
+
+### `Mask`
+
+| Property | Description | Values |
+|---|---|---|
+| enabled |  | Boolean |
+| top |  | Double |
+| right |  | Double |
+| bottom |  | Double |
+| left |  | Double |
+
+### `PremultipliedKey`
+
+| Property | Description | Values |
+|---|---|---|
+| enabled |  | Boolean |
+| clip |  | Double |
+| gain |  | Double |
+| invert |  | Boolean |
+
+### `Hyperdeck`
+
+| Property | Description | Values |
+|---|---|---|
+| index |  | Integer |
+| enabled |  | Boolean |
+| mode |  | PLAY_ONCE, PLAY_AND_LOOP, PLAY_AND_CONTINUE, STOP |
+| clipIndex |  | Integer |
+| speedPercent |  | Double |
+
+### Source
+
