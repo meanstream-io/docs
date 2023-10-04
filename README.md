@@ -225,7 +225,7 @@ MeanStream supports all ATEM native Transitions including Cut, Mix, Dip, Wipe, D
 
 ![image](_media/transition-types-native.png ':size=1200')
 
-If you know ATEM Software Control and the ATEM's Transition types, you should find your way around easily.
+If you know ATEM Software Control and the ATEM's Transition types, you should find your way around easily. All native Transition types can be edited via the user interface. If you want to use the code editor, refer to the [API Schema](#api-schema) section for details on the structure, properties and their values.
 
 ## MeanStream Transitions
 
@@ -248,12 +248,17 @@ This Transition works roughly like this:
 ![image](_media/hyperdeck-stinger-hd-config.png ':size=1200')
 
 **Hyperdeck Selection:**
+
 Choose the Hyperdeck you want to use. It MUST be configured in the Project settings.
 
 **Hyperdeck Settings:**
+
 Configure the clip to play.
 
 **Clip Information:**
+
+Provide information about the clip.
+
 ![image](_media/hyperdeck-stinger-clip-settings.png ':size=1200')
 
 **Downstream Key Settings:**
@@ -274,63 +279,25 @@ Animated Transitions are a complex thing to configure and a user interface has n
 
 ![image](_media/transition-editor-code-example.png ':size=1200')
 
-#### Properties
+Check the [API Schema](#api-schema) section for details on the structure, properties and their values.
 
-**rate:** The rate defines the duration of the animation in milliseconds.
-
-**keyframes:** A list of keyframes that sit in between the Transition's source and target Scenes.
-
-**configs.properties:** Configuration properties that tell MeanStream how to animated certain values like positions, sizes etc. 
-
-Check the following sections for details.
-
-#### Keyframes
-
-##### Properties
-
-| Property | Description |
-|---|---|
-| **timestamp** | The timestamp describes at which point of the animation, the keyframe is positioned. The value is a percentage in decimal notation (0 = 0%, 1 = 100%) and is interpreted relative to the rate. Example: If you want the animation to take 2 seconds, you need to set the value for rate to 2000. A keyframe with a timestamp of 0.25 is located at 25% of 2000 milliseconds = 500ms. |
-| **config** | The config property describes the entire Scene as it should be at that point in time of the timestamp. Values that are not to be changed can be left black, so that each key frame describes a diff relative to the keyframe before (Scenes are keyframes, too). Check the API Schema documentation section for details. |
-
-For a a detailed describtion of the "config" object, refer to the API Schema section.
-
-##### Merging
+**Merging**
 
 As mentioned before, a Transition's source and destination Scenes represent the first and the last keyframe of the animation. Translating that to timestamps: The source scene is at 0.0, the target Scene at 1.0. What if you define a keyframe with one of those timestamps?
 
-The keyframe with timestamp 0.0 will be merged into the source Scene and be deleted.
+1. The keyframe with timestamp 0.0 will be merged into the source Scene and be deleted.
+2. The keyframe with timestamp 1.0 will be merged into the target Scene and be deleted.
 
-The keyframe with timestamp 1.0 will be merged into the target Scene an deleted.
-
-#### Animation Configs
-
-Animation configs allow you to describe how a particular property is to animated through the key frames. All configs are located under `configs.properties`. A **selector** selects the property from the key frame `config` and configure that property only.
-
-| Property | Description |
-|---|---|
-| [selector] | A string to identify the property for which to configure animation behavior. Check the API Schema documentation section for details on the structure and allowed values.<br><br>Example: `/superSources/0/boxes/0/position` targets the first box in the first Super Source of the ATEM.<br><br> Wildcards are allow such as `/superSources/0/boxes/*/position` to target all the boxes of the Super Source. |
-| [selector].interpolation | Interpolation describes how MeanStream will generate values between key frames. Valid values are `NONE`, `LINEAR` and `CUBIC`. |
-| [selector].easing | Easing describes acceleration and decelleration behavior during the animation. Check the API Schema documentation for valid values.|
 
 ### Composite Transition
 
 There are situations in which other Animation Transition reach their limits or it is very hard to implement a specific behavior using only a single Animated Transition. For such situation,s Composite Transitions allow you to chain other Transitions and "execute" them in sequence.
 
-| Property | Description |
-|---|---|
-| transitions | A list of embedded Transitions to be executed in sequence. |
+To model Transitions in a CompositeTransition the object type of `EmbeddedTransition` is used. There is no source scene required in an EmbeddedTransition as the source scene config is defined by the previous embedded transition or the Composite Transition's source Scene in case of the first embedded Transition.
 
-Embedded Transitions have to adher to the following format:
+The target Scene of the last embedded Transition can be left unspecified. In that case, the Composite Transition's target Scene will be used.
 
-| Property | Description |
-|---|---|
-| config | The transition configuration including the `type` (Cut, Dip, Wipe, etc). Check the API Schema documentation for details. |
-| to | The scene definition to transition to (target scene) |
-
-There is no source scene required as the source scene config is defined by the previous embedded transition or the Composite Transition's source Scene in case of the first embedded Transition.
-
-The `to` value of the last embedded Transition can be left unspecified. In that case, the Composite Transition's target Scene will be used.
+Check the [API Schema](#api-schema) section for details on the structure, properties and their values.
 
 **Example:**
 ```yaml
