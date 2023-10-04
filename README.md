@@ -444,14 +444,14 @@ No further properties.
 
 | Property | Description | Values |
 |---|---|---|
-| rate |  | > 0 |
+| rate |  | Integer, > 0 |
 | mode |  | LeftToRightBar, TopToBottomBar, HorizontalBarnDoor, VerticalBarnDoor, CornersInFourBox, RectangleIris, DiamondIris, CircleIris, TopLeftBox, TopRightBox, BottomRightBox, BottomLeftBox, TopCentreBox, RightCentreBox, BottomCentreBox, LeftCentreBox, TopLeftDiagonal, TopRightDiagonal |
 | symmetry |  | Double, 0 <= x <= 1 |
 | position |  | [Position](#Position) |
 | reverse |  | Boolean |
 | flipFlop |  | Boolean |
-| borderSoftness |  | Double |
-| borderWidth |  | Double |
+| borderSoftness |  | Double, 0 <= x <= 1 |
+| borderWidth |  | Double, 0 <= x <= 1 |
 | borderFillInput |  | [Source](#Source) |
 
 ### `DveTransitionConfig`
@@ -503,7 +503,7 @@ No further properties.
 
 | Property | Description | Values |
 |---|---|---|
-| timestamp |  | 0 <= x >= 1 |
+| timestamp |  | Double, 0 <= x <= 1 |
 | config |  | [SceneConfig](#sceneconfig) |
 
 #### `AnimationConfig`
@@ -523,7 +523,7 @@ No further properties.
 
 | Property | Description | Values |
 |---|---|---|
-| to |  | [SceneConfig](#sceneconfig |
+| to |  | [SceneConfig](#sceneconfig) |
 | config |  | [TransitionConfig](#transitionconfig) |
 
 ## `SceneConfig`
@@ -557,33 +557,33 @@ No further properties.
 |---|---|---|
 | index |  | Integer, > 0 |
 | enabled |  | Boolean |
-| color |  | HueColor |
+| color |  | [HueColor](#huecolor) |
 
 ### `HueColor`
 
 | Property | Description | Values |
 |---|---|---|
-| hue |  | Double |
-| sat |  | Double |
-| lum |  | Double |
+| hue |  | Double, 0 <= x <= 359|
+| sat |  | Double, 0 <= x <= 1 |
+| lum |  | Double,, 0 <= x <= 1 |
 
 ### `MediaPlayer`
 
 | Property | Description | Values |
 |---|---|---|
-| index |  | Integer |
+| index |  | Integer, >= 0|
 | enabled |  | Boolean |
-| stillIndex |  | Integer |
-| clipIndex |  | Integer |
+| stillIndex |  | Integer, >= 0|
+| clipIndex |  | Integer, >= 0 |
 
 ### `DownstreamKey`
 
 | Property | Description | Values |
 |---|---|---|
-| index |  | Integer |
+| index |  | Integer, >= 0|
 | fillSource |  | [Source](#Source) |
 | keySource |  | [Source](#Source) |
-| mask |  | Mask |
+| mask |  | [Mask](#mask) |
 | premultipliedKey |  | [PremultipliedKey](#premultipliedkey) |
 | onAir |  | Boolean |
 
@@ -592,29 +592,48 @@ No further properties.
 | Property | Description | Values |
 |---|---|---|
 | enabled |  | Boolean |
-| top |  | Double |
-| right |  | Double |
-| bottom |  | Double |
-| left |  | Double |
+| top |  | Double, -9 <= x <= 9 |
+| right |  | Double, -16 <= x <= 16 |
+| bottom |  | Double, -9 <= x <= 9 |
+| left |  | Double, -16 <= x <= 16 |
 
 ### `PremultipliedKey`
 
 | Property | Description | Values |
 |---|---|---|
 | enabled |  | Boolean |
-| clip |  | Double |
-| gain |  | Double |
+| clip |  | Double, 0 <= x <= 1 |
+| gain |  | Double, 0 <= x <= 1 |
 | invert |  | Boolean |
 
 ### `Hyperdeck`
 
 | Property | Description | Values |
 |---|---|---|
-| index |  | Integer |
+| index |  | Integer, >= 0 |
 | enabled |  | Boolean |
 | mode |  | PLAY_ONCE, PLAY_AND_LOOP, PLAY_AND_CONTINUE, STOP |
-| clipIndex |  | Integer |
-| speedPercent |  | Double |
+| clipIndex |  | Integer, >= 0 |
+| speedPercent |  | Double, 0 <= x <= 1 |
 
 ### Source
 
+ATEM uses strings to represent different input sources. The following list of input sources comes from an ATEM Mini Extreme but shows quite well the format and pattern:
+
+- Black
+- Camera1
+- Camera2
+- Camera3
+- Camera4
+- Camera5
+- Camera6
+- Camera7
+- Camera8
+- ColorBars
+- Color1
+- Color2
+- SuperSource
+- MediaPlayer1
+- MediaPlayer2
+- MediaPlayer1Key
+- MediaPlayer2Key
