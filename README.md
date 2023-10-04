@@ -375,4 +375,17 @@ type: Composite
 
 # API Schema
 
+## SceneConfig
+
+## Transition
+
+### Cut 
+
+### Dip 
+
+### Wipe
+
+### DVE
+
+
 Easing describes acceleration and decelleration during the animation. Valid values are `NONE`, `CUBIC_EASE_IN`, `CUBIC_EASE_OUT`, `CUBIC_EASE_IN_OUT`, `QUADRATIC_EASE_IN`, `QUADRATIC_EASE_OUT`, `QUADRATIC_EASE_IN_OUT`
