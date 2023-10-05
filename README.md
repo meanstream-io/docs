@@ -25,7 +25,7 @@ Supported ATEM switchers include:
 
 **Optional: Bitfocus Companion** 
 
-In addition to ATEM macros, MeanStream generates configuration for Bitfocus Companion which can be used to project buttons and pages of buttons onto, for example, an Elgato Stream Deck.
+In addition to ATEM macros, MeanStream generates configuration for Bitfocus Companion which can be used to project buttons and pages of buttons onto, for example, an Elgato Stream Deck. The latest tested version is 2.3.1. (Sorry, I am behind on keeping this up-to-date but later versions might just work).
 
 **Optional: Elgato Streamdeck** 
 
