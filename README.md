@@ -683,40 +683,6 @@ The following properties apply to all Upstream Key types:
 | mask |  | [Mask](#mask) |
 | patternPosition |  | [Position](#position) |
 
-## Common
-
-### `Position`
-
-| Property | Description | Values |
-|---|---|---|
-| x | The x coordinate | Double |
-| y | The y coordinate | Double |
-
-### `ColorGenerator`
-
-| Property | Description | Values |
-|---|---|---|
-| index | The index of the ColorGenerator (0 = the first color) | Integer, > 0 |
-| enabled | Whether actually configure it or leave unchanged | Boolean |
-| color | The color to configure. | [HueColor](#huecolor) |
-
-### `HueColor`
-
-| Property | Description | Values |
-|---|---|---|
-| hue | The hue value | Double, 0 <= x <= 359|
-| sat | The saturation | Double, 0 <= x <= 1 |
-| lum | The luminiscence | Double,, 0 <= x <= 1 |
-
-### `MediaPlayer`
-
-| Property | Description | Values |
-|---|---|---|
-| index | The index of the Media Player (0 = the first one) | Integer, >= 0|
-| enabled | Whether actually configure it or leave unchanged | Boolean |
-| stillIndex | The index of the still to load | Integer, >= 0|
-| clipIndex | The index of the clip to load | Integer, >= 0 |
-
 ### `DownstreamKey`
 
 | Property | Description | Values |
@@ -727,6 +693,49 @@ The following properties apply to all Upstream Key types:
 | mask | The mask to apply | [Mask](#mask) |
 | premultipliedKey | Use premuliplied key or configure manually | [PremultipliedKey](#premultipliedkey) |
 | onAir | Whether to make this DSK visible | Boolean |
+
+### `Hyperdeck`
+
+| Property | Description | Values |
+|---|---|---|
+| index | The index of the Hyperdeck (0 = the first one) | Integer, >= 0 |
+| enabled | Whether actually configure it or leave unchanged | Boolean |
+| mode | The playback mode | PLAY_ONCE, PLAY_AND_LOOP, PLAY_AND_CONTINUE, STOP |
+| clipIndex | The index of the clip to play | Integer, >= 0 |
+| speedPercent | The playback speed | Double, 0 <= x <= 1 |
+
+### `ColorGenerator`
+
+| Property | Description | Values |
+|---|---|---|
+| index | The index of the ColorGenerator (0 = the first color) | Integer, > 0 |
+| enabled | Whether actually configure it or leave unchanged | Boolean |
+| color | The color to configure. | [HueColor](#huecolor) |
+
+### `MediaPlayer`
+
+| Property | Description | Values |
+|---|---|---|
+| index | The index of the Media Player (0 = the first one) | Integer, >= 0|
+| enabled | Whether actually configure it or leave unchanged | Boolean |
+| stillIndex | The index of the still to load | Integer, >= 0|
+| clipIndex | The index of the clip to load | Integer, >= 0 |
+
+
+## Common
+
+### Source
+
+ATEM uses strings to represent different input sources. The following list of input sources comes from an ATEM Mini Extreme but shows quite well the format and pattern:
+
+`Black`, `Camera1`, `Camera2`, `Camera3`, `Camera4`, `Camera5`, `Camera6`, `Camera7`, `Camera8`, `ColorBars`, `Color1`, `Color2`, `SuperSource`, `MediaPlayer1`, `MediaPlayer2`, `MediaPlayer1Key`, `MediaPlayer2Key`
+
+### `Position`
+
+| Property | Description | Values |
+|---|---|---|
+| x | The x coordinate | Double |
+| y | The y coordinate | Double |
 
 ### `Mask`
 
@@ -747,21 +756,6 @@ The following properties apply to all Upstream Key types:
 | gain | The gain value | Double, 0 <= x <= 1 |
 | invert | Whether to invert the key | Boolean |
 
-### `Hyperdeck`
-
-| Property | Description | Values |
-|---|---|---|
-| index | The index of the Hyperdeck (0 = the first one) | Integer, >= 0 |
-| enabled | Whether actually configure it or leave unchanged | Boolean |
-| mode | The playback mode | PLAY_ONCE, PLAY_AND_LOOP, PLAY_AND_CONTINUE, STOP |
-| clipIndex | The index of the clip to play | Integer, >= 0 |
-| speedPercent | The playback speed | Double, 0 <= x <= 1 |
-
-### Source
-
-ATEM uses strings to represent different input sources. The following list of input sources comes from an ATEM Mini Extreme but shows quite well the format and pattern:
-
-`Black`, `Camera1`, `Camera2`, `Camera3`, `Camera4`, `Camera5`, `Camera6`, `Camera7`, `Camera8`, `ColorBars`, `Color1`, `Color2`, `SuperSource`, `MediaPlayer1`, `MediaPlayer2`, `MediaPlayer1Key`, `MediaPlayer2Key`
 
 ### Crop
 
